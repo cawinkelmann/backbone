@@ -280,8 +280,7 @@
         if (success) success(model, resp);
       };
       options.error = wrapError(options.error, model, options);
-      var request = (this.sync || Backbone.sync).call(this, 'read', this, options);
-      this.promise = _.isFunction( request.promise ) ? request.promise() : request;
+      this.promise = (this.sync || Backbone.sync).call(this, 'read', this, options);
       return this;
     },
 
@@ -299,8 +298,7 @@
       };
       options.error = wrapError(options.error, model, options);
       var method = this.isNew() ? 'create' : 'update';
-      var request = (this.sync || Backbone.sync).call(this, method, this, options);
-	  this.promise = _.isFunction( request.promise ) ? request.promise() : request;
+      this.promise = (this.sync || Backbone.sync).call(this, method, this, options);
       return this;
     },
 
@@ -315,8 +313,7 @@
         if (success) success(model, resp);
       };
       options.error = wrapError(options.error, model, options);
-      var request = (this.sync || Backbone.sync).call(this, 'delete', this, options);
-	  this.promise = _.isFunction( request.promise ) ? request.promise() : request;
+      this.promise = (this.sync || Backbone.sync).call(this, 'delete', this, options);
       return this;
     },
 
@@ -529,8 +526,7 @@
         if (success) success(collection, resp);
       };
       options.error = wrapError(options.error, collection, options);
-      var request = (this.sync || Backbone.sync).call(this, 'read', this, options);
-	  this.promise = _.isFunction( request.promise ) ? request.promise() : request;
+      this.promise = (this.sync || Backbone.sync).call(this, 'read', this, options);
       return this;
     },
 
@@ -551,7 +547,6 @@
         coll.add(nextModel);
         if (success) success(nextModel, resp);
       };
-	  this.promise = model.promise;
       return model.save(null, options);
     },
 
@@ -1030,7 +1025,8 @@
     }
 
     // Make the request.
-    return $.ajax(params);
+    var request = $.ajax(params);
+    return _.isFunction( request.promise ) ? request.promise() : request;
   };
 
   // Helpers
